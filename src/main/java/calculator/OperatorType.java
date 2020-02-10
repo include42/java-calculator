@@ -1,5 +1,7 @@
 package calculator;
 
+import java.util.Arrays;
+
 /**
  * OperatorType 클래스는 계산기에서 사용되는 사칙연산을 모아놓은 Enum type 이다.
  * 각각의 사칙연산 문자열에 대하여 매칭되는 원소를 찾고,
@@ -54,7 +56,7 @@ public enum OperatorType {
      * @throws IllegalArgumentException : 만약 OperatorType 내에 존재하지 않는 연산자(inputOperator)가 들어오면 예외를 발생시킨다.
      */
     public static int operate(int n1, String inputOperator, int n2) throws IllegalArgumentException {
-        return findApplyToOperator(inputOperator).operationMethod.apply(n1, n2);
+        return getInstance(inputOperator).operationMethod.apply(n1, n2);
     }
 
     /**
@@ -65,13 +67,11 @@ public enum OperatorType {
      * @return inputOperator를 operator 요소로 가지는 OperatorType 객체를 반환한다.
      * @throws IllegalArgumentException : 만약 OperatorType 요소 전체에서 inputOperator와 같은 값을 찾지 못하면, 예외를 발생시킨다.
      */
-    public static OperatorType findApplyToOperator(String inputOperator) throws IllegalArgumentException {
-        for (OperatorType calculatorType : OperatorType.values()) {
-            if (calculatorType.toString().equals(inputOperator)) {
-                return calculatorType;
-            }
-        }
-        throw new IllegalArgumentException();
+    public static OperatorType getInstance(String inputOperator) throws IllegalArgumentException {
+        return Arrays.stream(OperatorType.values())
+                .filter(x -> inputOperator.equals(x.toString()))
+                .findFirst()
+                .orElseThrow(IllegalArgumentException::new);
     }
 
     /**

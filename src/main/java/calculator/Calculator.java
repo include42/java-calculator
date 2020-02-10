@@ -9,6 +9,11 @@ import java.util.*;
 
 public class Calculator {
     /**
+     * scanner는 입력 시 필요한 스캐너 변수를 정적으로 정의한 것이다.
+     * 이후 여유가 생긴다면, 별도의 View 모델을 만드는 것도 좋을 것이다.
+     */
+    private final static Scanner scanner = new Scanner(System.in);
+    /**
      * INPUT_MESSAGE는 상수 문자열로, 입력을 받을 때 출력되는 메세지를 저한다.
      */
     private final static String INPUT_MESSAGE = "계산할 수식을 입력해주세요. (숫자와 연산자는 공백으로 구분)";
@@ -41,7 +46,6 @@ public class Calculator {
      * @throws IllegalArgumentException : 만약 입력받은 숫자가 유효하지 않은 값이라면 예외처리한다
      */
     public void start() {
-        Scanner scanner = new Scanner(System.in);
         System.out.println(INPUT_MESSAGE);
         String inputString = inputEquation(scanner);
         if (validateString(inputString)) {
@@ -63,12 +67,24 @@ public class Calculator {
 
     /**
      * inputEquation은 수식을 입력받고 값을 리턴해준다.
-     * 이 과정에서, trim 메서드를 실행하여 전후 공백을 제거하도록 하였다.
+     * 이 과정에서, trimInputEquation 메서드를 실행하여 전후 공백을 제거하도록 하였다.
+     * 하단의 trimInputEquation과 함께, 추후 View 구조로 분리할 예정이다.
      *
+     * @param scanner 입력을 위한 Scanner 클래스를 전달받는다.
      * @return 입력받은 문자열 값을 반환한다.
      */
     private String inputEquation(Scanner scanner) {
-        return scanner.nextLine().trim();
+        return trimInputEquation(scanner.nextLine());
+    }
+
+    /**
+     * trimInputEquation은 입력받은 문자열의 시작/끝 부분 공백을 제거하여 반환한다.
+     *
+     * @param inputEquation 입력받은 수식 문자열 값을 전달받는다.
+     * @return 양 끝의 공백이 제거된 문자열 값을 반환한다.
+     */
+    private String trimInputEquation(String inputEquation){
+        return inputEquation.trim();
     }
 
     /**

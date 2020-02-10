@@ -13,6 +13,16 @@ public enum OperatorType {
     DIVIDE("/", (a, b) -> a / b);
 
     /**
+     * OperationMethod는 위의 OperatorType에서 사용될 사칙연산 메서드의 원형만을 가지는 인터페이스이다.
+     * 이를 바탕으로 각각의 연산이 자신만의 메서드 로직을 수정한다.
+     * 오해가 없도록 FunctionalInterface 에노테이션을 추가하였다.
+     */
+    @FunctionalInterface
+    private interface OperationMethod {
+        int apply(int n1, int n2);
+    }
+
+    /**
      * operator는 연산자의 문자열 값이다. 이를 바탕으로 연산자 문자열과 실제 연산 메서드를 매칭한다.
      */
     private final String operator;
@@ -73,14 +83,4 @@ public enum OperatorType {
     public String toString() {
         return operator;
     }
-}
-
-/**
- * OperationMethod는 위의 OperatorType에서 사용될 사칙연산 메서드의 원형만을 가지는 인터페이스이다.
- * 이를 바탕으로 각각의 연산이 자신만의 메서드 로직을 수정한다.
- * 오해가 없도록 FunctionalInterface 에노테이션을 추가하였다.
- */
-@FunctionalInterface
-interface OperationMethod {
-    int apply(int n1, int n2);
 }
